@@ -47,3 +47,6 @@ Quality rules:
 - Do not fabricate sources.
 - Use Simplified Chinese for user-facing report content unless asked otherwise.
 - Do not copy proprietary McKinsey assets or brand fonts.
+- Final reports should read like client-facing consulting whitepapers, not internal reasoning boards.
+- Use natural paragraphs, client-readable section headings, and chart interpretation points.
+- Do not expose internal labels in the final report, including `证据：`, `含义：`, `逻辑链条`, `事实基础`, `对客户启示`, `本章逻辑`, or `竞品`.

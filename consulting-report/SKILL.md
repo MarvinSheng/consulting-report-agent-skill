@@ -18,6 +18,8 @@ Do not generate the final report immediately. Run the report through four gates:
 
 Only after the user confirms the chapter outline and data source plan should you draft the storyline, exhibits, body pages, and PDF.
 
+Final PDFs must read like client-facing consulting whitepapers, not internal reasoning boards. Build the evidence chain internally, then rewrite it into polished prose with natural paragraphs, client-safe section headings, and exhibit interpretation.
+
 ## Workflow
 
 ### 1. Font Preflight
@@ -76,10 +78,13 @@ Ask the user whether they have the required sources or want public research. Con
 After both gates are confirmed:
 
 1. Build a storyline/storyboard before writing full pages.
-2. Draft pages with claim-evidence-implication logic.
-3. Create exhibit-quality charts using `scripts/generate_report.py`.
-4. Store outputs under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/`.
-5. Run the quality checklist in `references/quality-checklist.md` before delivery.
+2. Build an internal evidence chain for each important claim.
+3. Rewrite the evidence chain into client-facing whitepaper prose: natural paragraphs, concise blue subheads, thin separators, and no exposed analysis-process labels.
+4. Create exhibit-quality charts using `scripts/generate_report.py`, including interpretation points under every important exhibit.
+5. Store outputs under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/`.
+6. Run the quality checklist in `references/quality-checklist.md` before delivery.
+
+The final PDF must not contain internal drafting labels such as `证据：`, `含义：`, `逻辑链条`, `事实基础`, `对客户启示`, `本章逻辑`, or `竞品`. Use client-facing wording such as "市场表现", "战略打法", "行业启示", "章节导读", "重点企业", "主要参与者", and "竞争参与者".
 
 ## References
 

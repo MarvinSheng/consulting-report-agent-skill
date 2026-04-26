@@ -38,6 +38,7 @@ Avoid pie charts unless the user explicitly requests them.
 - Use legends only when direct labeling would clutter the chart.
 - Add notes for methodology, definitions, sample size, and caveats.
 - Add source lines for every chart.
+- Add 1-2 client-readable interpretation points below every important exhibit. These should summarize what the chart means for the audience, not describe how the analysis was performed.
 - Do not invent precision: round numbers consistently.
 
 ## Source Rules

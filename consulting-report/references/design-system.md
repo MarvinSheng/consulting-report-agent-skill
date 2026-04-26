@@ -48,8 +48,8 @@ Use components according to the confirmed storyline; do not force all components
 
 - Cover page: report title, subtitle, date, optional client/author line, original non-proprietary visual if needed.
 - Contents page: generated from the confirmed outline.
-- Chapter divider: large chapter title with optional visual treatment.
-- Narrative page: body text organized around a single claim or argument.
+- Chapter intro page: large chapter title plus a short `章节导读` paragraph that explains the client question answered in the chapter.
+- Whitepaper narrative page: body text organized around a single claim, with blue subheads, thin gray separators, and natural paragraphs.
 - Exhibit page: one or more charts with figure number, title, subtitle, notes, and source.
 - Mixed page: chart plus supporting interpretation.
 - Callout page: a major quote, key implication, or transition claim.
@@ -62,3 +62,7 @@ Use components according to the confirmed storyline; do not force all components
 - Preserve generous whitespace. Do not fill every page with dense bullets.
 - Use footnotes and source lines instead of hiding evidence.
 - Avoid decorative borders, heavy shadows, and arbitrary color variety.
+- Avoid whiteboard-style gray boxes, three-column reasoning frames, and visible analysis scaffolding in client deliverables.
+- Do not expose internal labels such as `证据：`, `含义：`, `逻辑链条`, `事实基础`, `对客户启示`, `本章逻辑`, or `竞品` in the final PDF.
+- For client-facing body pages, prefer white backgrounds with restrained blue subheads, thin horizontal rules, and 2-4 well-developed paragraphs.
+- Chapter intro pages should not be empty title pages; include a short guide to the chapter's business question and how the evidence will be used.

@@ -43,7 +43,7 @@ After the brief, propose a custom outline. Do not use a fixed industry-report te
 1. <章节名>
    - 作用：<为什么需要这一章>
    - 决策问题：<本章回答什么问题>
-   - 所需证据：<需要哪些数据/访谈/材料>
+   - 所需资料/数据：<需要哪些数据/访谈/材料>
    - 可能展品：<图表或框架类型>
 
 请确认这个章节结构是否可以继续；也可以告诉我需要删除、合并或调整的章节。
@@ -68,8 +68,17 @@ Ask whether the user has these sources or wants public research. If public resea
 ## Production Sequence After Confirmation
 
 1. Create storyline/storyboard.
-2. Draft page claims and evidence.
-3. Generate exhibits with direct labels, notes, and sources.
-4. Generate PDF under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/final/report.pdf` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/final/report.pdf`.
-5. Render selected pages for visual QA.
-6. Report final paths and any remaining assumptions.
+2. Build page-level claims, evidence, implications, and source support internally.
+3. Rewrite the internal analysis into client-facing consulting whitepaper prose. Use fluent paragraphs and professional section headings; do not expose analysis-process labels in the final PDF.
+4. Generate exhibits with direct labels, notes, sources, and 1-2 client-readable interpretation points.
+5. Generate PDF under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/final/report.pdf` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/final/report.pdf`.
+6. Render selected pages for visual QA.
+7. Report final paths and any remaining assumptions.
+
+## Client-Facing Prose Rule
+
+The report may use structured thinking internally, but the final PDF must read like a polished whitepaper for the target audience. Avoid visible labels such as `证据：`, `含义：`, `逻辑链条`, `事实基础`, `对客户启示`, `本章逻辑`, and `竞品`. Convert them into concise subheads and natural paragraphs, for example:
+
+- `证据 + 含义` becomes one or two paragraphs that move from fact to interpretation.
+- `事实基础 / 逻辑链条 / 对客户启示` becomes client-facing sections such as `市场表现`, `战略打法`, and `行业启示`.
+- `本章逻辑` becomes `章节导读`.

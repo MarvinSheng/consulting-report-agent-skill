@@ -1,4 +1,4 @@
 interface:
   display_name: "咨询报告生成器"
-  short_description: "生成交互式中文咨询报告，支持字体检查、章节确认、数据来源确认和 PDF 输出。"
+  short_description: "生成交互式中文咨询白皮书式报告，支持字体检查、章节确认、数据来源确认和 PDF 输出。"
   default_prompt: "帮我生成一份中文咨询报告，请先检查字体并引导我确认 brief、章节和数据来源。"

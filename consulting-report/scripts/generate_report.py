@@ -201,6 +201,35 @@ class ConsultingReport:
             c.drawString(self.margin_x + 90, y, line)
             y -= 58
 
+    def chapter_intro(self, chapter_label: str, chapter_title: str, guide: Iterable[str]) -> None:
+        self._new_page()
+        c = self.c
+        c.setFillColor(Colors.DEEP_BLUE)
+        c.rect(0, 0, self.w, self.h, fill=1, stroke=0)
+        x = self.margin_x + 90
+        y = self.h - 165
+        c.setFillColor(Colors.CYAN)
+        c.setFont(FONT_BOLD, 17)
+        c.drawString(x, y, chapter_label)
+        y -= 80
+        c.setFillColor(white)
+        c.setFont(FONT_BLACK, 42)
+        for line in wrap_text(chapter_title, 10):
+            c.drawString(x, y, line)
+            y -= 52
+        y -= 24
+        c.setFillColor(Colors.CYAN)
+        c.setFont(FONT_BOLD, 11.5)
+        c.drawString(x, y, "章节导读")
+        y -= 30
+        c.setFillColor(white)
+        c.setFont(FONT_REGULAR, 10.8)
+        for paragraph in guide:
+            for line in wrap_text(paragraph, 31):
+                c.drawString(x, y, line)
+                y -= 17
+            y -= 8
+
     def narrative_page(self, headline: str, paragraphs: Iterable[str], footnote: str = "") -> None:
         self._new_page()
         c = self.c
@@ -218,6 +247,46 @@ class ConsultingReport:
                 c.drawString(self.margin_x + 85, y, line)
                 y -= 17
             y -= 12
+        if footnote:
+            c.setFont(FONT_REGULAR, 7)
+            c.setFillColor(Colors.GRAY)
+            for line in wrap_text(footnote, 76):
+                c.drawString(self.margin_x, 58, line)
+        self._footer()
+
+    def whitepaper_page(
+        self,
+        headline: str,
+        sections: Iterable[tuple[str, Iterable[str]]],
+        footnote: str = "",
+    ) -> None:
+        self._new_page()
+        c = self.c
+        y = self.h - 112
+        c.setFillColor(Colors.DEEP_BLUE)
+        c.setFont(FONT_BLACK, 21)
+        for line in wrap_text(headline, 24):
+            c.drawString(self.margin_x, y, line)
+            y -= 30
+        y -= 14
+        x = self.margin_x + 88
+        for title, paragraphs in sections:
+            c.setFillColor(Colors.DEEP_BLUE)
+            c.setFont(FONT_BOLD, 11.5)
+            c.drawString(x, y, title)
+            y -= 16
+            c.setStrokeColor(Colors.LIGHT_GRAY)
+            c.setLineWidth(0.5)
+            c.line(x, y + 5, self.w - self.margin_x, y + 5)
+            y -= 10
+            c.setFillColor(Colors.TEXT)
+            c.setFont(FONT_REGULAR, 9.6)
+            for paragraph in paragraphs:
+                for line in wrap_text(paragraph, 43):
+                    c.drawString(x, y, line)
+                    y -= 15
+                y -= 8
+            y -= 14
         if footnote:
             c.setFont(FONT_REGULAR, 7)
             c.setFillColor(Colors.GRAY)
@@ -295,14 +364,33 @@ def build_demo(output: Path, page_size: str = "letter") -> Path:
     report.cover(date="2026年4月", note="本文件为测试样例，数据为演示口径，不代表真实市场结论。")
     chapters = ["客户问题与决策目标", "体验差距与价值机会", "行动优先级与落地路径"]
     report.contents(chapters)
-    report.chapter_divider("第一章", "客户问题与决策目标")
-    report.narrative_page(
-        "报告应先围绕客户决策问题建立逻辑，而不是套用固定章节模板。",
+    report.chapter_intro(
+        "第一章",
+        "客户问题与决策目标",
         [
-            "咨询报告的章节结构必须来自客户 brief。目标读者、使用场景、已有数据和决策问题不同，报告的章节颗粒度和证据顺序也应不同。",
-            "正式生成前，Agent Skill 会先要求确认章节大纲和数据来源计划。只有当客户确认这些前置门槛后，才进入 storyline、展品和 PDF 生成。",
+            "本章用于明确客户的决策场景、目标读者和报告边界。正式报告应先回答客户需要做出的业务判断，再安排章节、展品和建议顺序。",
+            "章节结构来自客户 brief 和已确认的数据来源计划，而不是套用固定模板。",
         ],
-        footnote="注：本页用于验证 STKaitiSC 中文排版、页脚和正文行距。",
+    )
+    report.whitepaper_page(
+        "正式报告应围绕客户决策展开，而不是展示内部分析过程。",
+        [
+            (
+                "客户问题",
+                [
+                    "咨询报告的章节结构必须来自客户 brief。目标读者、使用场景、已有数据和决策问题不同，报告的章节颗粒度和证据顺序也应不同。",
+                    "页面正文应以自然段落呈现事实、解释和业务含义，让客户顺畅理解判断依据。",
+                ],
+            ),
+            (
+                "交付方式",
+                [
+                    "正式生成前，Agent Skill 会先要求确认章节大纲和数据来源计划。只有当前置门槛完成后，才进入 storyline、展品和 PDF 生成。",
+                    "最终 PDF 应使用客户可读的小标题、段落和图表解读，避免暴露内部推理标签。",
+                ],
+            ),
+        ],
+        footnote="注：本页用于验证 STKaitiSC 中文排版、页脚和白皮书式正文行距。",
     )
     chart = create_bar_exhibit(["响应速度", "个性化", "跨渠道一致性", "人工触点"], [64, 52, 47, 39])
     report.exhibit_page(
