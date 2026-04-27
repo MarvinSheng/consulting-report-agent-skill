@@ -40,7 +40,7 @@ Avoid pie charts unless the user explicitly requests them.
 - Add source lines for every chart.
 - Add 1-2 client-readable interpretation points below every important exhibit. These should summarize what the chart means for the audience, not describe how the analysis was performed.
 - Keep interpretation points concise and decision-oriented. They should answer "what should the client take from this?" rather than restating the chart.
-- Wrap title, subtitle, notes, source lines, and interpretation points within the exhibit text column. Do not use long unwrapped strings or bullets that can run off the right page boundary.
+- Wrap title, subtitle, notes, source lines, and interpretation points within the exhibit text column by rendered width. Do not use long unwrapped strings, fixed-character wrapping, or bullets that can run off the right page boundary.
 - Do not invent precision: round numbers consistently.
 
 ## Tables and Matrices

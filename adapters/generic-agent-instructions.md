@@ -49,6 +49,8 @@ Quality rules:
 - Do not copy proprietary McKinsey assets or brand fonts.
 - Final reports should read like client-facing consulting whitepapers, not internal reasoning boards.
 - Use natural paragraphs, client-readable section headings, and chart interpretation points.
+- Align body paragraphs, subheads, and chart interpretation points on a stable left text axis.
+- Wrap Chinese and mixed Chinese/English prose by rendered width rather than fixed character counts.
 - Use actual page numbers in contents pages.
 - Wrap chart titles, source lines, and interpretation points so they do not run off the right page edge.
 - Convert long portrait tables into card grids, split pages, or landscape layouts.

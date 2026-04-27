@@ -88,6 +88,70 @@ def wrap_text(text: str, chars: int) -> List[str]:
     return lines
 
 
+NO_LINE_START = set("，。；：、？！,.!?;:)]}）】》」』")
+NO_LINE_END = set("（【《「『([{")
+
+
+def wrap_text_width(text: str, font_name: str, font_size: float, max_width: float) -> List[str]:
+    """Wrap text by rendered width, keeping CJK punctuation in sensible places."""
+    if not text:
+        return []
+
+    def width(value: str) -> float:
+        return pdfmetrics.stringWidth(value, font_name, font_size)
+
+    def tokens(value: str) -> List[str]:
+        out: List[str] = []
+        latin = ""
+        for char in value.strip():
+            if char.isspace():
+                if latin:
+                    out.append(latin)
+                    latin = ""
+                out.append(" ")
+            elif ord(char) < 128 and (char.isalnum() or char in "/._%+-"):
+                latin += char
+            else:
+                if latin:
+                    out.append(latin)
+                    latin = ""
+                out.append(char)
+        if latin:
+            out.append(latin)
+        return out
+
+    lines: List[str] = []
+    current = ""
+    for token in tokens(text):
+        candidate = (current + token).strip() if token == " " else current + token
+        if width(candidate) <= max_width or not current:
+            current = candidate
+            continue
+
+        line = current.rstrip()
+        next_line = token.lstrip()
+        if token in NO_LINE_START and line:
+            line += token
+            next_line = ""
+        if line and line[-1] in NO_LINE_END and len(line) > 1:
+            next_line = line[-1] + next_line
+            line = line[:-1].rstrip()
+        if line:
+            lines.append(line)
+        current = next_line
+
+    if current.strip():
+        lines.append(current.strip())
+
+    if len(lines) >= 2 and len(lines[-1]) <= 2:
+        tail = lines.pop()
+        previous = lines.pop()
+        move = min(4, max(1, len(previous) // 5))
+        lines.append(previous[:-move].rstrip())
+        lines.append((previous[-move:] + tail).strip())
+    return [line for line in lines if line]
+
+
 @dataclass
 class Exhibit:
     number: str
@@ -213,7 +277,8 @@ class ConsultingReport:
         c = self.c
         c.setFillColor(Colors.DEEP_BLUE)
         c.rect(0, 0, self.w, self.h, fill=1, stroke=0)
-        x = self.margin_x + 90
+        x = self.margin_x
+        max_w = self.content_w
         y = self.h - 165
         c.setFillColor(Colors.CYAN)
         c.setFont(FONT_BOLD, 17)
@@ -221,7 +286,7 @@ class ConsultingReport:
         y -= 80
         c.setFillColor(white)
         c.setFont(FONT_BLACK, 42)
-        for line in wrap_text(chapter_title, 12):
+        for line in wrap_text_width(chapter_title, FONT_BLACK, 42, max_w):
             c.drawString(x, y, line)
             y -= 52
         y -= 24
@@ -232,7 +297,7 @@ class ConsultingReport:
         c.setFillColor(white)
         c.setFont(FONT_REGULAR, 10.8)
         for paragraph in guide:
-            for line in wrap_text(paragraph, 31):
+            for line in wrap_text_width(paragraph, FONT_REGULAR, 10.8, max_w):
                 c.drawString(x, y, line)
                 y -= 17
             y -= 8
@@ -243,15 +308,15 @@ class ConsultingReport:
         y = self.h - 118
         c.setFillColor(Colors.DEEP_BLUE)
         c.setFont(FONT_BLACK, 21)
-        for line in wrap_text(headline, 24):
+        for line in wrap_text_width(headline, FONT_BLACK, 21, self.content_w):
             c.drawString(self.margin_x, y, line)
             y -= 30
         y -= 22
         c.setFillColor(Colors.TEXT)
         c.setFont(FONT_REGULAR, 10.8)
         for para in paragraphs:
-            for line in wrap_text(para, 43):
-                c.drawString(self.margin_x + 85, y, line)
+            for line in wrap_text_width(para, FONT_REGULAR, 10.8, self.content_w):
+                c.drawString(self.margin_x, y, line)
                 y -= 17
             y -= 12
         if footnote:
@@ -272,15 +337,18 @@ class ConsultingReport:
         y = self.h - 112
         c.setFillColor(Colors.DEEP_BLUE)
         c.setFont(FONT_BLACK, 21)
-        for line in wrap_text(headline, 24):
+        for line in wrap_text_width(headline, FONT_BLACK, 21, self.content_w):
             c.drawString(self.margin_x, y, line)
             y -= 30
         y -= 14
-        x = self.margin_x + 88
+        x = self.margin_x
+        max_w = self.content_w
         for title, paragraphs in sections:
             c.setFillColor(Colors.DEEP_BLUE)
             c.setFont(FONT_BOLD, 11.5)
-            c.drawString(x, y, title)
+            for line in wrap_text_width(title, FONT_BOLD, 11.5, max_w):
+                c.drawString(x, y, line)
+                y -= 15
             y -= 16
             c.setStrokeColor(Colors.LIGHT_GRAY)
             c.setLineWidth(0.5)
@@ -289,7 +357,7 @@ class ConsultingReport:
             c.setFillColor(Colors.TEXT)
             c.setFont(FONT_REGULAR, 9.6)
             for paragraph in paragraphs:
-                for line in wrap_text(paragraph, 43):
+                for line in wrap_text_width(paragraph, FONT_REGULAR, 9.6, max_w):
                     c.drawString(x, y, line)
                     y -= 15
                 y -= 8
@@ -307,16 +375,16 @@ class ConsultingReport:
         y = self.h - 102
         c.setFillColor(Colors.TEXT)
         c.setFont(FONT_REGULAR, 10)
-        x = self.margin_x + 72
+        x = self.margin_x
         right_x = self.w - self.margin_x
         c.drawString(x, y, f"图{exhibit.number}")
         y -= 25
         c.setFont(FONT_BOLD, 15)
-        for line in wrap_text(exhibit.title, 27):
+        for line in wrap_text_width(exhibit.title, FONT_BOLD, 15, right_x - x):
             c.drawString(x, y, line)
             y -= 22
         c.setFont(FONT_BOLD, 10)
-        for line in wrap_text(exhibit.subtitle, 44):
+        for line in wrap_text_width(exhibit.subtitle, FONT_BOLD, 10, right_x - x):
             c.drawString(x, y - 4, line)
             y -= 12
         chart_y = y - 320
@@ -325,10 +393,10 @@ class ConsultingReport:
         c.setFillColor(Colors.GRAY)
         note_y = chart_y - 20
         if exhibit.notes:
-            for line in wrap_text(exhibit.notes, 66):
+            for line in wrap_text_width(exhibit.notes, FONT_REGULAR, 7, right_x - x):
                 c.drawString(x, note_y, line)
                 note_y -= 10
-        for line in wrap_text(f"资料来源：{exhibit.source}", 66):
+        for line in wrap_text_width(f"资料来源：{exhibit.source}", FONT_REGULAR, 7, right_x - x):
             c.drawString(x, note_y - 4, line)
             note_y -= 10
         if exhibit.interpretation:
@@ -336,7 +404,7 @@ class ConsultingReport:
             c.setFillColor(Colors.TEXT)
             c.setFont(FONT_REGULAR, 10.5)
             for point in exhibit.interpretation:
-                for line in wrap_text("• " + point, 40):
+                for line in wrap_text_width("• " + point, FONT_REGULAR, 10.5, right_x - x):
                     c.drawString(x, y2, line)
                     y2 -= 17
                 y2 -= 6

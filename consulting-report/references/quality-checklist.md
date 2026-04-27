@@ -24,6 +24,8 @@ Run this before final delivery.
 - No page has overlapping text, clipped labels, or unreadable footnotes.
 - Headline hierarchy is consistent.
 - Footer and page numbers are consistent.
+- Body paragraphs are left-aligned on the same main text axis as their page headline or section heading.
+- Text is wrapped by rendered width, not fixed character counts; no line starts with closing punctuation and no paragraph ends with a visually awkward orphan line.
 - Contents page uses actual page numbers and all entries sit above the footer.
 - White space is deliberate.
 - Body pages use whitepaper-style paragraphs, blue subheads, and thin separators rather than whiteboard-style gray boxes.
@@ -49,6 +51,6 @@ Run this before final delivery.
 
 - Final PDF is under the active workspace output folder: prefer `03-outputs/consulting-report/<run-name>/final/report.pdf` when available, otherwise `outputs/consulting-report/<run-name>/final/report.pdf`.
 - Intermediate artifacts are under the same run folder.
-- Render and inspect at least four representative pages before delivery: a contents page, a core insight page, a market/structure or exhibit page, a company/table page, and a recommendation page.
+- Render and inspect at least four representative pages before delivery: a contents page, a chapter-intro page, a core insight page, a market/structure or exhibit page, a company/table page, and a recommendation page.
 - If the report includes dense tables or heatmaps, render those pages specifically and check right-edge clipping and label readability.
 - Final response cites relative output paths.
