@@ -71,9 +71,12 @@ Ask whether the user has these sources or wants public research. If public resea
 2. Build page-level claims, evidence, implications, and source support internally.
 3. Rewrite the internal analysis into client-facing consulting whitepaper prose. Use fluent paragraphs and professional section headings; do not expose analysis-process labels in the final PDF.
 4. Generate exhibits with direct labels, notes, sources, and 1-2 client-readable interpretation points.
-5. Generate PDF under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/final/report.pdf` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/final/report.pdf`.
-6. Render selected pages for visual QA.
-7. Report final paths and any remaining assumptions.
+5. Generate the contents page with actual page numbers once the page structure is final.
+6. Use full-page chapter intros only where they improve reading rhythm; smaller chapters may begin on a chapter-labeled body or exhibit page.
+7. Convert long portrait tables into card grids, split pages, or landscape pages before PDF generation.
+8. Generate PDF under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/final/report.pdf` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/final/report.pdf`.
+9. Render selected pages for visual QA, including contents, dense table/card pages, heatmaps, and exhibit pages with interpretation text.
+10. Report final paths and any remaining assumptions.
 
 ## Client-Facing Prose Rule
 

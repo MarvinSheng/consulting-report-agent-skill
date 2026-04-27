@@ -39,7 +39,16 @@ Avoid pie charts unless the user explicitly requests them.
 - Add notes for methodology, definitions, sample size, and caveats.
 - Add source lines for every chart.
 - Add 1-2 client-readable interpretation points below every important exhibit. These should summarize what the chart means for the audience, not describe how the analysis was performed.
+- Keep interpretation points concise and decision-oriented. They should answer "what should the client take from this?" rather than restating the chart.
+- Wrap title, subtitle, notes, source lines, and interpretation points within the exhibit text column. Do not use long unwrapped strings or bullets that can run off the right page boundary.
 - Do not invent precision: round numbers consistently.
+
+## Tables and Matrices
+
+- Use a table only when the information remains readable within the available content width.
+- For portrait reports, convert long multi-column comparison tables into card grids or split them across pages.
+- For heatmaps and matrices, wrap or rotate axis labels so they remain legible after PDF rendering.
+- Re-render any exhibit page with dense labels before delivery and inspect it visually.
 
 ## Source Rules
 

@@ -49,4 +49,9 @@ Quality rules:
 - Do not copy proprietary McKinsey assets or brand fonts.
 - Final reports should read like client-facing consulting whitepapers, not internal reasoning boards.
 - Use natural paragraphs, client-readable section headings, and chart interpretation points.
+- Use actual page numbers in contents pages.
+- Wrap chart titles, source lines, and interpretation points so they do not run off the right page edge.
+- Convert long portrait tables into card grids, split pages, or landscape layouts.
+- Use full-page chapter intros selectively; avoid a stop-start rhythm caused by one full divider page for every short chapter.
+- Render-check contents, dense tables, heatmaps, and exhibit pages before delivery.
 - Do not expose internal labels in the final report, including `证据：`, `含义：`, `逻辑链条`, `事实基础`, `对客户启示`, `本章逻辑`, or `竞品`.

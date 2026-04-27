@@ -80,9 +80,12 @@ After both gates are confirmed:
 1. Build a storyline/storyboard before writing full pages.
 2. Build an internal evidence chain for each important claim.
 3. Rewrite the evidence chain into client-facing whitepaper prose: natural paragraphs, concise blue subheads, thin separators, and no exposed analysis-process labels.
-4. Create exhibit-quality charts using `scripts/generate_report.py`, including interpretation points under every important exhibit.
-5. Store outputs under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/`.
-6. Run the quality checklist in `references/quality-checklist.md` before delivery.
+4. Create exhibit-quality charts using `scripts/generate_report.py`, including wrapped notes, wrapped source lines, and interpretation points under every important exhibit.
+5. Use actual page numbers in the contents page; do not use placeholder or formula-generated page numbers.
+6. Keep chapter-intro pacing intentional: use full-page chapter intros for major turns in the storyline, and let smaller chapters start on a whitepaper body or exhibit page when that improves rhythm.
+7. For long tables in portrait PDFs, use card grids, split pages, or a landscape page; never allow a table or interpretation text to exceed the right page boundary.
+8. Store outputs under the active workspace output folder. Prefer `03-outputs/consulting-report/<run-name>/` when that folder exists; otherwise use `outputs/consulting-report/<run-name>/`.
+9. Run the quality checklist in `references/quality-checklist.md` before delivery.
 
 The final PDF must not contain internal drafting labels such as `证据：`, `含义：`, `逻辑链条`, `事实基础`, `对客户启示`, `本章逻辑`, or `竞品`. Use client-facing wording such as "市场表现", "战略打法", "行业启示", "章节导读", "重点企业", "主要参与者", and "竞争参与者".
 

@@ -78,6 +78,9 @@ def wrap_text(text: str, chars: int) -> List[str]:
             if pos > chars * 0.45:
                 split = pos + 1
                 break
+        remaining = len(text) - split
+        if 0 < remaining <= 2 and split > max(4, chars * 0.6):
+            split = max(4, split - (3 - remaining))
         lines.append(text[:split].strip())
         text = text[split:].strip()
     if text:
@@ -169,21 +172,25 @@ class ConsultingReport:
             c.setFont(FONT_REGULAR, 10)
             c.drawString(self.margin_x, 72, date)
 
-    def contents(self, chapters: List[str]) -> None:
+    def contents(self, chapters: List[str], page_numbers: Optional[List[int]] = None) -> None:
         self._new_page()
         c = self.c
         c.setFillColor(Colors.TEXT)
         c.setFont(FONT_BLACK, 30)
-        c.drawString(self.margin_x + 88, self.h - 130, "目录")
-        y = self.h - 210
-        c.setFont(FONT_BOLD, 13)
+        c.drawString(self.margin_x + 72, self.h - 130, "目录")
+        y = self.h - 190
+        row_gap = min(72, max(50, (self.h - 260) / max(len(chapters), 1)))
         for idx, chapter in enumerate(chapters, 1):
-            c.setFillColor(Colors.DEEP_BLUE if idx > 0 else Colors.TEXT)
-            c.drawString(self.margin_x + 85, y, f"第{idx}章")
+            c.setFillColor(Colors.DEEP_BLUE)
+            c.setFont(FONT_BOLD, 11)
+            c.drawString(self.margin_x + 72, y, f"第{idx}章")
             c.setFillColor(Colors.TEXT)
-            c.drawString(self.margin_x + 85, y - 22, chapter)
-            c.drawRightString(self.w - self.margin_x, y - 10, str(idx * 4 + 2))
-            y -= 92
+            c.setFont(FONT_BOLD, 12.5)
+            c.drawString(self.margin_x + 72, y - 20, chapter)
+            if page_numbers and idx <= len(page_numbers):
+                c.setFont(FONT_REGULAR, 12)
+                c.drawRightString(self.w - self.margin_x, y - 10, str(page_numbers[idx - 1]))
+            y -= row_gap
         self._footer()
 
     def chapter_divider(self, chapter_label: str, chapter_title: str) -> None:
@@ -214,7 +221,7 @@ class ConsultingReport:
         y -= 80
         c.setFillColor(white)
         c.setFont(FONT_BLACK, 42)
-        for line in wrap_text(chapter_title, 10):
+        for line in wrap_text(chapter_title, 12):
             c.drawString(x, y, line)
             y -= 52
         y -= 24
@@ -300,31 +307,37 @@ class ConsultingReport:
         y = self.h - 102
         c.setFillColor(Colors.TEXT)
         c.setFont(FONT_REGULAR, 10)
-        c.drawString(self.margin_x + 88, y, f"图{exhibit.number}")
+        x = self.margin_x + 72
+        right_x = self.w - self.margin_x
+        c.drawString(x, y, f"图{exhibit.number}")
         y -= 25
         c.setFont(FONT_BOLD, 15)
-        for line in wrap_text(exhibit.title, 33):
-            c.drawString(self.margin_x + 88, y, line)
+        for line in wrap_text(exhibit.title, 27):
+            c.drawString(x, y, line)
             y -= 22
         c.setFont(FONT_BOLD, 10)
-        c.drawString(self.margin_x + 88, y - 4, exhibit.subtitle)
+        for line in wrap_text(exhibit.subtitle, 44):
+            c.drawString(x, y - 4, line)
+            y -= 12
         chart_y = y - 320
-        c.drawImage(ImageReader(exhibit.chart), self.margin_x + 88, chart_y, width=self.content_w - 88, height=285, preserveAspectRatio=True)
+        c.drawImage(ImageReader(exhibit.chart), x, chart_y, width=right_x - x, height=285, preserveAspectRatio=True)
         c.setFont(FONT_REGULAR, 7)
         c.setFillColor(Colors.GRAY)
         note_y = chart_y - 20
         if exhibit.notes:
-            for line in wrap_text(exhibit.notes, 78):
-                c.drawString(self.margin_x + 88, note_y, line)
+            for line in wrap_text(exhibit.notes, 66):
+                c.drawString(x, note_y, line)
                 note_y -= 10
-        c.drawString(self.margin_x + 88, note_y - 4, f"资料来源：{exhibit.source}")
+        for line in wrap_text(f"资料来源：{exhibit.source}", 66):
+            c.drawString(x, note_y - 4, line)
+            note_y -= 10
         if exhibit.interpretation:
             y2 = note_y - 62
             c.setFillColor(Colors.TEXT)
             c.setFont(FONT_REGULAR, 10.5)
             for point in exhibit.interpretation:
-                for line in wrap_text("— " + point, 54):
-                    c.drawString(self.margin_x + 88, y2, line)
+                for line in wrap_text("• " + point, 40):
+                    c.drawString(x, y2, line)
                     y2 -= 17
                 y2 -= 6
         self._footer()
@@ -363,7 +376,7 @@ def build_demo(output: Path, page_size: str = "letter") -> Path:
     )
     report.cover(date="2026年4月", note="本文件为测试样例，数据为演示口径，不代表真实市场结论。")
     chapters = ["客户问题与决策目标", "体验差距与价值机会", "行动优先级与落地路径"]
-    report.contents(chapters)
+    report.contents(chapters, page_numbers=[3, 4, 5])
     report.chapter_intro(
         "第一章",
         "客户问题与决策目标",
